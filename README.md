@@ -17,6 +17,27 @@ int main(void) {
 }
 ```
 
+## Requirements
+
+Header-only, no dependencies. The headers compile cleanly as **C++11 through
+C++26** on both GCC and Clang (`-Wall -Wextra -Wpedantic`, zero warnings).
+
+Obfuscation is an optimiser effect: build with **`-O2` or higher** so the
+ciphertext is folded in at compile time and the plaintext literal is dropped.
+The decryption buffer is `volatile`, which forces the decode to happen at run
+time and prevents an aggressive `-O3` pass from baking the plaintext back in.
+
+## Building the example
+
+```sh
+# Directly
+g++ -std=c++17 -O2 example/main.cpp -o example_app
+
+# Or with CMake (choose the standard with -DCMAKE_CXX_STANDARD=11|14|17|20|23|26)
+cmake -S . -B build -DCMAKE_CXX_STANDARD=17
+cmake --build build
+```
+
 ## Features
 
 ##### Before Obfuacating (Compile options : -O3 -march=native -fPIC -g)
